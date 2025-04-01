@@ -1,34 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import Home from "./components/Home.jsx";
+import Watchlist from "./components/Watchlist.jsx";
+import "./index.css";
 
 const App = () => {
-  const API_URL =
-    "https://api.themoviedb.org/3/movie/popular?api_key=ad99fe54e262f888c08925483eeeab9a";
+  const [watchlist, setWatchlist] = useState(
+    JSON.parse(localStorage.getItem("watchlist")) || []
+  );
 
-  const [movies, setMovies] = useState([]);
-
-  useEffect(() => {
-    fetch(API_URL)
-      .then((response) => response.json())
-      .then((data) => {
-        setMovies(data.results);
-        console.log(data.results);
-      })
-      .catch((error) => console.error("Error fetching data:", error));
-  }, []);
+  const addToWatchlist = (movie) => {
+    if (!watchlist.some((m) => m.id === movie.id)) {
+      const updatedWatchlist = [...watchlist, movie];
+      setWatchlist(updatedWatchlist);
+      localStorage.setItem("watchlist", JSON.stringify(updatedWatchlist));
+    }
+  };
 
   return (
-    <div>
-      <h1>Popular Movies</h1>
-      {movies.map((movie) => (
-        <div key={movie.id}>
-          <p>{movie.title}</p>
-          <img
-            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-            alt={movie.title}
-          />
-        </div>
-      ))}
-    </div>
+    <Router>
+      <nav className="flex justify-between p-4 bg-gray-800 text-white">
+        <Link to="/" className="text-lg font-bold">Home</Link>
+        <Link to="/watchlist" className="text-lg font-bold">Watchlist ({watchlist.length})</Link>
+      </nav>
+      <Routes>
+        <Route path="/" element={<Home addToWatchlist={addToWatchlist} />} />
+        <Route path="/watchlist" element={<Watchlist watchlist={watchlist} />} />
+      </Routes>
+    </Router>
   );
 };
 
