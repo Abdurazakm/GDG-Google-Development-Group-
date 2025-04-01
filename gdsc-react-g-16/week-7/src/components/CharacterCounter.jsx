@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback, useReducer } from "react";
-import { ProgressBar, Button, Form } from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
+import "./index.css";
 
 const CHAR_LIMIT = 200;
 
@@ -54,34 +53,27 @@ const CharacterCounter = () => {
   }, [state.copied, dispatch]);
 
   return (
-    <div className="container mt-4">
-      <h3 className="mb-3">Real-Time Character Counter</h3>
-      <Form.Group>
-        <Form.Control
-          as="textarea"
-          rows={4}
-          value={state.text}
-          onChange={(e) => updateText(e.target.value)}
-          placeholder="Type here..."
-          className="mb-2"
-        />
-      </Form.Group>
-      <div className="d-flex justify-content-between">
-        <span>{state.count} / {CHAR_LIMIT}</span>
-        {percentageUsed >= 90 && <span className="text-danger">⚠️ Approaching limit!</span>}
-      </div>
-      <ProgressBar
-        now={percentageUsed}
-        variant={percentageUsed >= 90 ? "danger" : "primary"}
-        className="mt-2"
+    <div className="container">
+      <h3 className="title">Real-Time Character Counter</h3>
+      <textarea
+        className="text-area"
+        rows={4}
+        value={state.text}
+        onChange={(e) => updateText(e.target.value)}
+        placeholder="Type here..."
       />
-      <Button
-        className="mt-3"
+      <div className="info">
+        <span>{state.count} / {CHAR_LIMIT}</span>
+        {percentageUsed >= 90 && <span className="warning">⚠️ Approaching limit!</span>}
+      </div>
+      <div className="progress-bar" style={{ width: `${percentageUsed}%`, backgroundColor: percentageUsed >= 90 ? "red" : "blue" }}></div>
+      <button
+        className="copy-button"
         onClick={() => dispatch({ type: "COPY_TEXT" })}
         disabled={!state.text}
       >
         {state.copied ? "Copied! ✅" : "Copy to Clipboard"}
-      </Button>
+      </button>
     </div>
   );
 };
