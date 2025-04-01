@@ -1,14 +1,10 @@
-import React from "react";
-import LiveSearch from "./components/LiveSearch";
+import CharacterCounter from "./components/CharacterCounter";
 
-// Main App component
 function App() {
   return (
-    <>
-      <div>
-       < LiveSearch />
-      </div>
-    </>
+    <div className="App">
+      <CharacterCounter />
+    </div>
   );
 }
 
