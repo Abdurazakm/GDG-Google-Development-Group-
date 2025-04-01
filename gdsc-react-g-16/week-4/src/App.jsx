@@ -1,20 +1,13 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import MyForm from './MyForm'
+import React from "react";
+import TaskManager from "./component/TaskManager";
+import "./index.css"; // Import the CSS file
 
-function App() {
+const App = () => {
   return (
-    <>
-    <h1>take note</h1>
-      <div>
-       <MyForm/>
-      </div>
-    </>
-  )
-}
+    <div className="app">
+      <TaskManager />
+    </div>
+  );
+};
 
-export default App
-
-
+export default App;
